@@ -1,0 +1,51 @@
+@subsite_title_height: 103px;
+@padding_under_subsite_title: 15px;
+
+#subsite_title {
+	background-color: transparent; height: @subsite_title_height; padding: 0; text-align: left; width: 1000px;
+	a {background-color: white; display: block; margin-right: 230px; padding: 15px; width: 725px;}
+}
+#two_col_wrapper #content_column {
+	margin-left: 0; width: 755px;
+}
+#two_col_wrapper #menu_column {
+	background-color: transparent; float: right; margin-right: 0; margin-top: ((@subsite_title_height + @padding_under_subsite_title) * -1); padding: 0; width: 230px;
+	section {
+		background-color: #fff; margin-bottom: 15px; padding: 15px;
+	}
+	section:last-child {
+		margin-bottom: 0;	
+	}
+}
+#two_col_wrapper #menu_col_stretcher {
+	display: none;
+}
+#content_col_stretcher {
+    left: 0;
+    width: 755px;
+}
+section.websites {
+	float: left; padding-right: 15px; width: 225px;
+	a {display: block; font-size: 120%;}
+	.new {color: red; text-transform: uppercase;}
+	p {margin-bottom: 20px;}
+}
+#twitter {
+	h1 {margin-bottom: 0;}
+	h3 {font-size: 100%; margin-top: 0; text-transform: none;}
+}
+#subsite_title {
+	font-size: 400%; text-align: center; text-transform: uppercase;
+	a {color: #c00; text-decoration: none;}
+}
+#latest_release {
+	a {
+		background-color: #EEEEEE; border-radius: 10px; display: inline-block; height: 100%; margin-bottom: 5px; padding: 5px; text-align: center; text-transform: uppercase; width: 195px;
+		&:hover {
+			text-decoration: none;
+			img {border: 1px solid #c02;}
+		}
+	}
+	img {border: 1px solid #aaa; max-height: 195px; max-width: 195px;}
+	.title {display: block;}
+}
