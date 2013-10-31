@@ -40,12 +40,15 @@ section.websites {
 }
 #latest_release {
 	a {
-		background-color: #EEEEEE; border-radius: 10px; display: inline-block; height: 100%; margin-bottom: 5px; padding: 5px; text-align: center; text-transform: uppercase; width: 195px;
+		display: inline-block; margin-top: 15px;
 		&:hover {
 			text-decoration: none;
-			img {border: 1px solid #c02;}
+			.title {
+				text-decoration: underline;
+			}
 		}
 	}
 	img {border: 1px solid #aaa; max-height: 195px; max-width: 195px;}
-	.title {display: block;}
+	.title {display: block; font-size: 150%;}
+	.released {color: #666;}
 }

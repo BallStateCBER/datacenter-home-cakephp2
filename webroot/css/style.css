@@ -73,21 +73,14 @@ section.websites p {
   text-decoration: none;
 }
 #latest_release a {
-  background-color: #EEEEEE;
-  border-radius: 10px;
   display: inline-block;
-  height: 100%;
-  margin-bottom: 5px;
-  padding: 5px;
-  text-align: center;
-  text-transform: uppercase;
-  width: 195px;
+  margin-top: 15px;
 }
 #latest_release a:hover {
   text-decoration: none;
 }
-#latest_release a:hover img {
-  border: 1px solid #c02;
+#latest_release a:hover .title {
+  text-decoration: underline;
 }
 #latest_release img {
   border: 1px solid #aaa;
@@ -96,4 +89,8 @@ section.websites p {
 }
 #latest_release .title {
   display: block;
+  font-size: 150%;
+}
+#latest_release .released {
+  color: #666;
 }
