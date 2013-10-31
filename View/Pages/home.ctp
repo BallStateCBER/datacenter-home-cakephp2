@@ -1,7 +1,3 @@
-<?php
-	// <span class="new">Updated:</span>
-?>
-
 <section class="websites">
 	<h1>Resources</h1>
 	<p>
