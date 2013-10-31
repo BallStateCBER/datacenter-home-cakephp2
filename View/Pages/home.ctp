@@ -5,7 +5,7 @@
 <section class="websites">
 	<h1>Resources</h1>
 	<p>
-		<a href="http://www.bsu.edu/mcobwin/ibb">
+		<a href="http://indicators.cberdata.org/">
 			Economic Indicators
 		</a>
 		Regularly updated data sets from primary sources for the U.S., Indiana, and Indiana's metro areas.
