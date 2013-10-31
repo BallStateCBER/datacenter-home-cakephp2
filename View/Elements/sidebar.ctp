@@ -3,12 +3,15 @@
 		<h1>
 			Latest Release
 		</h1>
+		<p class="released">
+			Published <?php echo date('F j, Y', strtotime($latest_release['Release']['released'])); ?>
+		</p>
 		<?php 
-			$link_content = '<span class="title">'.$latest_release['Release']['title'].'</span>';
-			$link_content .= '<span class="released">Published '.date('F j, Y', strtotime($latest_release['Release']['released'])).'</span>';
+			$link_content = '';
 			if (! empty($latest_release['Graphic'])) {
 				$link_content .= '<img src="'.$latest_release['Graphic'][0]['thumbnail'].'"> ';
 			}
+			$link_content .= '<span class="title">'.$latest_release['Release']['title'].'</span>';
 			echo $this->Html->link(
 				$link_content, 
 				$latest_release['Release']['url'],
