@@ -1,12 +1,6 @@
-<p>
-	The CBER Data Center makes data collection simple, visual, and easily accessible.  We've 
-	collected the latest data sets from trusted primary sources, including 
-	<a href="http://www.bls.gov">BLS</a>, 
-	<a href="http://www.bea.gov">BEA</a>, and the 
-	<a href="http://www.census.gov">U.S. Census Bureau</a>. Our economic web tools transform 
-	overwhelming walls of numbers into a format that is organized, attractive, and useful 
-	for people ranging from grant writers and economic developers to community leaders and informed citizens.
-</p>
+<?php
+	// <span class="new">Updated:</span>
+?>
 
 <section class="websites">
 	<h1>Resources</h1>
