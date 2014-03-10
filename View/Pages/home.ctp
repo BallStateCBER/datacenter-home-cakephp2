@@ -72,6 +72,12 @@
 		</a>
 		Compare daily living costs between states at the county level.
 	</p>
+	<p>
+		<a href="http://coli.org/calculator/in/muncie/calculator.asp">
+			Cost-of-Living Index Calculator
+		</a>
+		The Council for Community and Economic Research (C2ER) compiles average pricing data to compare average living costs in cities across the U.S.
+	</p>
 </section>
 
 <br class="clear" />
