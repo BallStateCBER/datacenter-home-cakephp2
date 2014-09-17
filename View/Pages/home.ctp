@@ -63,7 +63,7 @@
 		<a href="http://profiles.cberdata.org/calculator">
 			Economic Impact Calculator
 		</a>
-		Estimate the economic impact of a new business in a given county.
+		This tool estimates the direct and indirect effects of the introduction of a new business to a county.
 	</p>
 	<p>
 		<a href="http://tax-comparison.cberdata.org/">
