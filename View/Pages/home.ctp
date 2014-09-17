@@ -12,13 +12,13 @@
 	<h1>Resources</h1>
 	<p>
 		<a href="http://indicators.cberdata.org/">
-			Economic Indicators
+			<img src="/img/Indicators.jpg" alt="Economic Indicators" />
 		</a>
 		Regularly updated data sets from primary sources for the U.S., Indiana, and Indiana's metro areas.
 	</p>
 	<p>
 		<a href="http://profiles.cberdata.org">
-			Indiana County Profiles
+			<img src="/img/Profiles.jpg" alt="Indiana County Profiles" />
 		</a>
 		County-level information including demographics, education, health, and social capital.
 	</p>
@@ -36,21 +36,21 @@
 	<h1>Products</h1>
 	<p>
 		<a href="http://asset.cberdata.org/">
-			Indiana Community Asset Inventory and Rankings
+			<img src="/img/CAIR.jpg" alt="Indiana Community Asset Inventory and Rankings" />
 		</a>
 		An objective, data-focused assessment of the factors that influence the quality
 		of life and the economic conditions within each county.
 	</p>
 	<p>
 		<a href="http://conexus.cberdata.org/">
-			Manufacturing and Logistics Report
+			<img src="/img/Conexus.png" alt="Manufacturing and Logistics Report" />
 		</a>
 		Produced for Conexus Indiana, this report grades state performance on a number
 		of factors that affect the health of the manufacturing industry.
 	</p>
 	<p>
 		<a href="http://commentaries.cberdata.org/">
-			Weekly Commentary
+			<img src="/img/Commentary.jpg" alt="Weekly Commentary" />
 		</a>
 		Ball State economist Michael J. Hicks, Ph.D. delivers his personal perspective on
 		current issues in business, government, and society.
@@ -61,13 +61,13 @@
 	<h1>Calculators</h1>
 	<p>
 		<a href="http://profiles.cberdata.org/calculator">
-			Economic Impact Calculator
+			<img src="/img/ImpactCalculator.jpg" alt="Economic Impact Calculator" />
 		</a>
 		This tool estimates the direct and indirect effects of the introduction of a new business to a county.
 	</p>
 	<p>
 		<a href="http://tax-comparison.cberdata.org/">
-			Illinois-to-Indiana Tax Savings Calculator
+			<img src="/img/TaxCalculator.jpg" alt="Illinois-to-Indiana Tax Savings Calculator" />
 		</a>
 		Compare daily living costs between states at the county level.
 	</p>
