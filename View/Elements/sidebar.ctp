@@ -3,18 +3,22 @@
 		<h1>
 			Latest Release
 		</h1>
-		<?php 
+		<?php
 			$link_content = '<span class="title">'.$latest_release['Release']['title'].'</span>';
 			$link_content .= '<span class="released">Published '.date('F j, Y', strtotime($latest_release['Release']['released'])).'</span>';
 			if (! empty($latest_release['Graphic'])) {
 				$link_content .= '<img src="'.$latest_release['Graphic'][0]['thumbnail'].'"> ';
 			}
 			echo $this->Html->link(
-				$link_content, 
+				$link_content,
 				$latest_release['Release']['url'],
 				array('escape' => false)
 			);
 		?>
+		<br />
+		<a href="http://projects.cberdata.org">
+			View Project Database &rarr;
+		</a>
 		<br class="clear" />
 	</section>
 <?php endif; ?>
