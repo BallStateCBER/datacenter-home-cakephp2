@@ -76,9 +76,9 @@
 				<a href="http://brownfield.cberdata.org/">
 					<img src="/img/Brownfield.jpg" alt="Brownfield Grant Writers' Tool" />
 				</a>
-				County-level information including demographics, education, health, and social capital.
-				Includes TIF-in-a-Box, information about Tax Increment Financing and the Economic Impact
-				Calculator for estimating the economic and fiscal effects of new business development.
+				County-level information for grant writers regarding demographics, education,
+				health, and social capital.	Includes information about Tax Increment Financing
+				and a calculator for estimating	the economic and fiscal effects of new business development.
 			</td>
 			<td>
 				<a href="http://commentaries.cberdata.org/">
