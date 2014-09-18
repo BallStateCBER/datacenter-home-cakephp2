@@ -74,7 +74,7 @@
 		<tr>
 			<td>
 				<a href="http://brownfield.cberdata.org/">
-					Brownfield Grant Writers' Tool
+					<img src="/img/Brownfield.jpg" alt="Brownfield Grant Writers' Tool" />
 				</a>
 				County-level information including demographics, education, health, and social capital.
 				Includes TIF-in-a-Box, information about Tax Increment Financing and the Economic Impact
@@ -89,7 +89,7 @@
 			</td>
 			<td>
 				<a href="http://coli.org/calculator/in/muncie/calculator.asp">
-					Cost-of-Living Index Calculator
+					<img src="/img/Coli.jpg" alt="Cost-of-Living Index Calculator" />
 				</a>
 				The Council for Community and Economic Research (C2ER) compiles average pricing data to compare average living costs in cities across the U.S.
 			</td>
