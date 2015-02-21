@@ -24,10 +24,10 @@
 Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
 Router::connect('/commentaries/*', array('controller' => 'pages', 'action' => 'commentaries_redirect'));
 Router::connect('/refresh_latest_release', array('controller' => 'pages', 'action' => 'refresh_latest_release'));
-
+Router::connect('/overview', array('controller' => 'pages', 'action' => 'overview'));
 
 /**
- * Load all plugin routes.  See the CakePlugin documentation on 
+ * Load all plugin routes.  See the CakePlugin documentation on
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();

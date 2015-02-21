@@ -79,17 +79,17 @@ class PagesController extends AppController {
 		$this->set(compact('page', 'subpage', 'title_for_layout'));
 		$this->render(implode('/', $path));
 	}
-	
+
 	public function home() {
 		$this->set(array(
 			'title_for_layout' => ''
 		));
 	}
-	
+
 	public function phpinfo() {
 		$this->set('title_for_layout', 'PHP Info');
 	}
-	
+
 	public function commentaries_redirect() {
 		$url = 'http://commentaries.cberdata.org/';
 		if (! empty($this->params['pass'])) {
@@ -97,21 +97,48 @@ class PagesController extends AppController {
 				$url .= 'commentary/'.$this->params['pass'][1];
 			} else {
 				$url .= 'commentaries/'.implode('/', $this->params['pass']);
-			}	
+			}
 		}
 		$this->redirect($url);
 	}
-	
-	/* This simply refreshes the cached information about the latest 
+
+	/* This simply refreshes the cached information about the latest
 	 * release from the Projects and Publications page.
 	 * AppController::__getLatestRelease() is called in
 	 * AppController::beforeRender(), so just removing what's cached
-	 * will cause the data to be re-imported automatically. */ 
+	 * will cause the data to be re-imported automatically. */
 	public function refresh_latest_release() {
 		Cache::write('latest_release', array());
 		// So ReleasesController::__updateDataCenterHome() in Projects and Publications returns TRUE
 		echo 1;
 		$this->layout = 'DataCenter.blank';
 		$this->render('DataCenter.Common/blank');
+	}
+
+	public function overview() {
+		require_once('../Vendor/php-github-api/lib/Github/Client.php');
+		require_once('../Vendor/php-github-api/vendor/autoload.php');
+
+		$client = new \Github\Client();
+
+		$token = Configure::read('github_api_token');
+		$method = Github\Client::AUTH_HTTP_TOKEN;
+		$client->authenticate($token, '', $method);
+
+		$repositories = $client->api('user')->repositories('BallStateCBER');
+		foreach ($repositories as &$repository) {
+			$master_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
+			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
+			if ($master_branch && $dev_branch) {
+				$repository['master_synced'] = ($master_branch['commit']['sha'] == $dev_branch['commit']['sha']) ? 1 : -1;
+			} else {
+				$repository['master_synced'] = 0;
+			}
+		}
+
+		$this->set(array(
+			'title_for_layout' => 'Data Center Overview',
+			'repositories' => $repositories
+		));
 	}
 }
