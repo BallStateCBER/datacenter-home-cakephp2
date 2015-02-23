@@ -127,7 +127,7 @@ class PagesController extends AppController {
 		$client->authenticate($token, '', $method);
 
 		$repositories = $client->api('user')->repositories($username);
-		foreach ($repositories as &$repository) {
+		foreach ($repositories as $i => $repository) {
 			$branches = $client->api('repo')->branches($username, $repository['name']);
 			$has_master_branch = false;
 			$has_dev_branch = false;
@@ -143,21 +143,21 @@ class PagesController extends AppController {
 				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'development', 'master');
 				switch ($compare['status']) {
 					case 'identical':
-						$repository['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
 						break;
 					case 'ahead':
-						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span> ';
-						$repository['master_status'] .= $compare['ahead_by'];
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span> ';
+						$repositories[$i]['master_status'] .= $compare['ahead_by'];
 						break;
 					case 'behind':
-						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span> ';
-						$repository['master_status'] .= $compare['behind_by'];
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span> ';
+						$repositories[$i]['master_status'] .= $compare['behind_by'];
 						break;
 					default:
-						$repository['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
 				}
 			} else {
-				$repository['master_status'] = '<span class="na">N/A</a>';
+				$repositories[$i]['master_status'] = '<span class="na">N/A</a>';
 			}
 		}
 
