@@ -86,7 +86,7 @@
 							</td>
 						<?php else: ?>
 							<td>
-								n/a
+								<span class="na">N/A</a>
 							</td>
 						<?php endif; ?>
 					<?php endforeach; ?>

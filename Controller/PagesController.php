@@ -143,7 +143,7 @@ class PagesController extends AppController {
 				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'master', 'development');
 				$repository['master_status'] = $compare['status'];
 			} else {
-				$repository['master_status'] = 'N/A';
+				$repository['master_status'] = '<span class="na">N/A</a>';
 			}
 		}
 
