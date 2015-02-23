@@ -138,27 +138,77 @@ class PagesController extends AppController {
 		}
 
 		$sites = array(
-			'brownfield' => 'http://brownfield.cberdata.org/',
-			'commentaries' => 'http://commentaries.cberdata.org/',
-			'communityAssetInventory' => 'http://asset.cberdata.org/',
-			'conexus' => 'http://conexus.cberdata.org/',
-			'countyProfiles' => 'http://profiles.cberdata.org/',
-			'cri' => 'http://cri.cberdata.org/',
-			'dataCenterHome' => 'http://cberdata.org/',
-			'economicIndicators' => 'http://indicators.cberdata.org/',
-			'ice_miller' => 'http://icemiller.cberdata.org/',
-			'muncieMusicFest' => 'http://munciemusicfest.com',
-			'muncie_events' => 'http://muncieevents.com',
-			'muncie_musicfest2' => 'http://munciemusicfest.com',
-			'projects' => 'http://projects.cberdata.org/',
-			'roundtable' => 'http://roundtable.cberdata.org/',
-			'taxCalculator' => 'http://tax-comparison.cberdata.org/'
+			'brownfield' => array(
+				'production' => 'http://brownfield.cberdata.org',
+				'development' => 'http://brownfield.localhost/'
+			),
+			'commentaries' => array(
+				'production' => 'http://commentaries.cberdata.org',
+				'development' => 'http://commentaries.localhost'
+			),
+			'communityAssetInventory' => array(
+				'production' => 'http://asset.cberdata.org',
+				'development' => 'http://qop.localhost'
+			),
+			'conexus' => array(
+				'production' => 'http://conexus.cberdata.org',
+				'development' => 'http://conexus.localhost'
+			),
+			'countyProfiles' => array(
+				'production' => 'http://profiles.cberdata.org',
+				'development' => 'http://profiles.localhost'
+			),
+			'cri' => array(
+				'production' => 'http://cri.cberdata.org',
+				'development' => 'http://cri.localhost'
+			),
+			'dataCenterHome' => array(
+				'production' => 'http://cberdata.org',
+				'development' => 'http://dchome.localhost'
+			),
+			'economicIndicators' => array(
+				'production' => 'http://indicators.cberdata.org',
+				'development' => 'http://indicators.localhost'
+			),
+			'ice_miller' => array(
+				'production' => 'http://icemiller.cberdata.org',
+				'development' => 'http://icemiller.localhost'
+			),
+			'muncieMusicFest' => array(
+				'production' => 'http://munciemusicfest.com',
+				'development' => 'http://mmf.localhost'
+			),
+			'muncie_events' => array(
+				'production' => 'http://muncieevents.com',
+				'development' => 'http://muncie_events.localhost'
+			),
+			'muncie_musicfest2' => array(
+				'production' => 'http://munciemusicfest.com',
+				'development' => 'http://mmf.localhost'
+			),
+			'projects' => array(
+				'production' => 'http://projects.cberdata.org',
+				'development' => 'http://projects.localhost'
+			),
+			'roundtable' => array(
+				'production' => 'http://roundtable.cberdata.org',
+				'development' => 'http://roundtable.localhost'
+			),
+			'taxCalculator' => array(
+				'production' => 'http://tax-comparison.cberdata.org',
+				'development' => 'http://tax_calculator.localhost'
+			)
 		);
 
+		$pos = stripos(env('SERVER_NAME'), 'localhost');
+		$sn_len = strlen(env('SERVER_NAME'));
+		$lh_len = strlen('localhost');
+		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
 		$this->set(array(
 			'title_for_layout' => 'Data Center Overview',
 			'repositories' => $repositories,
-			'sites' => $sites
+			'sites' => $sites,
+			'is_localhost' => $is_localhost
 		));
 	}
 }

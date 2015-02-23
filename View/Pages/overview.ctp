@@ -23,6 +23,10 @@
 					Updated
 				</th>
 				<th>
+					URLs
+				</th>
+				<th>
+					<?php echo $is_localhost ? 'Localhost' : 'Production'; ?>
 					Status
 				</th>
 			</tr>
@@ -58,14 +62,24 @@
 							));
 							$time_ago_split = explode(', ', $time_ago);
 							$time_ago = $time_ago_split[0];
-							if (stripos($time_ago, ' ago') === false && stripos($time_ago, 'on ') === false) {
-								$time_ago = $time_ago.' ago';
-							}
-							echo $time_ago;
+							echo str_replace(' ago', '', $time_ago);
 						?>
 					</td>
-					<?php if (isset($sites[$repo['name']])): ?>
-						<td class="check_status" data-url="<?php echo $sites[$repo['name']]; ?>">
+					<td>
+						<?php foreach (array('production', 'development') as $server): ?>
+							<?php if (isset($sites[$repo['name']][$server])): ?>
+								<a href="<?php echo $sites[$repo['name']][$server]; ?>">
+									<?php echo substr($server, 0, 3); ?>
+								</a>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</td>
+					<?php
+						$server = $is_localhost ? 'development' : 'production';
+						$url = isset($sites[$repo['name']][$server]) ? $sites[$repo['name']][$server] : null;
+					?>
+					<?php if ($url): ?>
+						<td class="check_status" data-url="<?php echo $url; ?>">
 
 						</td>
 					<?php else: ?>
@@ -80,38 +94,31 @@
 <?php endif; ?>
 
 <?php
-	$pos = stripos(env('SERVER_NAME'), 'localhost');
-	$sn_len = strlen(env('SERVER_NAME'));
-	$lh_len = strlen('localhost');
-	$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
-
-	if ($is_localhost) {
-		$this->Js->buffer("
-			$('td.check_status').each(function () {
-				$(this).html('Can\'t check (on localhost)');
-			});
-		");
-	} else {
-		$this->Js->buffer("
-			$('td.check_status').each(function () {
-				var cell = $(this);
-				$.ajax({
-					url: cell.data('url'),
-					crossDomain: true,
-					beforeSend: function () {
-						cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
-					},
-					success: function (data, textStatus, jqXHR) {
-						cell.html('Okay');
-						if (data.search('debug-kit-toolbar') > -1) {
-							cell.append(' (debug mode)');
-						}
-					},
-					error: function () {
-						cell.html('Error');
+	$url = $is_localhost ? 'cell.data(\'url\')' : "'http://whateverorigin.org/get?url=' + encodeURIComponent(cell.data('url')) + '&callback=?'";
+	$dataType = $is_localhost ? '' : "dataType: 'json',";
+	$data = $is_localhost ? 'data' : 'data.contents';
+	//scriptCharset: 'utf-8',
+	//contentType: 'application/json; charset=utf-8',
+	$this->Js->buffer("
+		$('td.check_status').each(function () {
+			var cell = $(this);
+			$.ajax({
+				$dataType
+				url: $url,
+				crossDomain: true,
+				beforeSend: function () {
+					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
+				},
+				success: function(data) {
+					cell.html('Okay');
+					if ($data.search('debug-kit-toolbar') > -1) {
+						cell.append(' (debug)');
 					}
-				});
+				},
+				error: function () {
+					cell.html('Error');
+				}
 			});
-		");
-	}
+		});
+	");
 ?>
