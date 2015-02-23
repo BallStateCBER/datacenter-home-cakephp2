@@ -126,14 +126,14 @@
 					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
 				},
 				success: function(data) {
-					cell.html('Okay');
+					cell.html('<span class=\"glyphicon glyphicon-ok-sign\"></span>');
 					var result = is_localhost ? data : data.contents;
 					if (result.search('debug-kit-toolbar') > -1) {
-						cell.append(' (debug)');
+						cell.append(' <span class=\"debug\">debug</span>');
 					}
 				},
 				error: function () {
-					cell.html('Error');
+					cell.html('<span class=\"glyphicon glyphicon-remove-sign\"></span>');
 				}
 			});
 		});
