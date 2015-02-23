@@ -9,7 +9,7 @@
 		<thead>
 			<tr>
 				<th>
-					Repo
+					Repository
 				</th>
 				<th>
 					Open
@@ -17,20 +17,27 @@
 					issues
 				</th>
 				<th>
-					Master vs. Dev
+					Master
+					<br />vs. Dev
 				</th>
 				<th>
-					Pushed
+					Last
+					<br />
+					Push
 				</th>
 				<th>
 					URLs
 				</th>
 				<?php if ($is_localhost): ?>
 					<th>
-						Dev Status
+						Status
+						<br />
+						(Dev)
 					</th>
 					<th>
-						Production Status
+						Status
+						<br />
+						(Production)
 					</th>
 				<?php else: ?>
 					<th>
