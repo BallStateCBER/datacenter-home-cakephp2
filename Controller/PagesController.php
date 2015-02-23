@@ -146,10 +146,12 @@ class PagesController extends AppController {
 						$repository['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
 						break;
 					case 'ahead':
-						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span>';
+						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span> ';
+						$repository['master_status'] .= $compare['ahead_by'];
 						break;
 					case 'behind':
-						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span>';
+						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span> ';
+						$repository['master_status'] .= $compare['behind_by'];
 						break;
 					default:
 						$repository['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
