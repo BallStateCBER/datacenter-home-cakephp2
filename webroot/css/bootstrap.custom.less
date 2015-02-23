@@ -1,0 +1,131 @@
+// Core variables and mixins
+@import "variables.less";
+@import "../bootstrap/css/mixins.less";
+
+// Core CSS
+/* @import "../bootstrap/css/scaffolding.less"; */
+/* @import "../bootstrap/css/type.less"; */
+/* @import "../bootstrap/css/code.less"; */
+@import "../bootstrap/css/grid.less";
+@import "../bootstrap/css/tables.less";
+@import "../bootstrap/css/forms.less";
+@import "../bootstrap/css/buttons.less";
+
+// Components
+@import "../bootstrap/css/component-animations.less";
+@import "../bootstrap/css/glyphicons.less";
+@import "../bootstrap/css/dropdowns.less";
+@import "../bootstrap/css/button-groups.less";
+@import "../bootstrap/css/input-groups.less";
+@import "../bootstrap/css/navs.less";
+/* @import "../bootstrap/css/navbar.less"; */
+/* @import "../bootstrap/css/breadcrumbs.less"; */
+@import "../bootstrap/css/pagination.less";
+@import "../bootstrap/css/pager.less";
+@import "../bootstrap/css/labels.less";
+@import "../bootstrap/css/badges.less";
+/* @import "../bootstrap/css/jumbotron.less"; */
+/* @import "../bootstrap/css/thumbnails.less"; */
+@import "../bootstrap/css/alerts.less";
+@import "../bootstrap/css/progress-bars.less";
+@import "../bootstrap/css/media.less";
+@import "../bootstrap/css/list-group.less";
+@import "../bootstrap/css/panels.less";
+@import "../bootstrap/css/wells.less";
+@import "../bootstrap/css/close.less";
+
+// Components w/ JavaScript
+@import "../bootstrap/css/modals.less";
+@import "../bootstrap/css/tooltip.less";
+@import "../bootstrap/css/popovers.less";
+/* @import "../bootstrap/css/carousel.less"; */
+
+// Utility classes
+@import "../bootstrap/css/utilities.less";
+/* @import "../bootstrap/css/responsive-utilities.less"; */
+
+
+// Pulled from type.less
+// Contextual colors
+.text-muted {
+  color: @text-muted;
+}
+.text-primary {
+  .text-emphasis-variant(@brand-primary);
+}
+.text-success {
+  .text-emphasis-variant(@state-success-text);
+}
+.text-info {
+  .text-emphasis-variant(@state-info-text);
+}
+.text-warning {
+  .text-emphasis-variant(@state-warning-text);
+}
+.text-danger {
+  .text-emphasis-variant(@state-danger-text);
+}
+// Page header
+.page-header {
+  padding-bottom: ((@line-height-computed / 2) - 1);
+  margin: (@line-height-computed * 2) 0 @line-height-computed;
+  border-bottom: 1px solid @page-header-border-color;
+}
+// Contextual backgrounds
+// For now we'll leave these alongside the text classes until v4 when we can
+// safely shift things around (per SemVer rules).
+.bg-primary {
+  // Given the contrast here, this is the only class to have its color inverted
+  // automatically.
+  color: #fff;
+  .bg-variant(@brand-primary);
+}
+.bg-success {
+  .bg-variant(@state-success-bg);
+}
+.bg-info {
+  .bg-variant(@state-info-bg);
+}
+.bg-warning {
+  .bg-variant(@state-warning-bg);
+}
+.bg-danger {
+  .bg-variant(@state-danger-bg);
+}
+
+// Overrides
+
+// Prevent a:visited color from overriding button color
+a.btn-default {
+	.btn-default;
+}
+a.btn-primary {
+	.btn-primary;
+}
+a.btn-success {
+	.btn-success;
+}
+a.btn-info {
+	.btn-info;
+}
+a.btn-warning {
+	.btn-warning;
+}
+a.btn-danger {
+	.btn-danger;
+}
+
+// Apply box-sizing rule (normally applied by scaffolding.less) to input fields
+.form-control {
+	.box-sizing(border-box);
+}
+
+.dropdown-menu {
+	li {
+		list-style-type: none;
+	}
+}
+
+.page-header {
+	margin-top: 0;
+}

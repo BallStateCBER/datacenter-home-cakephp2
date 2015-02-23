@@ -1,9 +1,11 @@
+<?php $this->Html->css('overview', array('inline' => false)); ?>
+
 <?php if (empty($repositories)): ?>
 	<p>
 		No <a href="https://github.com/BallStateCBER">BallStateCBER GitHub repositories</a> found.
 	</p>
 <?php else: ?>
-	<table>
+	<table class="table">
 		<thead>
 			<tr>
 				<th>
