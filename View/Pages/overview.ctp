@@ -80,21 +80,35 @@
 <?php endif; ?>
 
 <?php
-	$this->Js->buffer("
-		$('td.check_status').each(function () {
-			var cell = $(this);
-			$.ajax({
-				url: cell.data('url'),
-				beforeSend: function () {
-					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
-				},
-				success: function () {
-					cell.html('Okay');
-				},
-				error: function () {
-					cell.html('Error');
-				}
+	$pos = stripos(env('SERVER_NAME'), 'localhost');
+	$sn_len = strlen(env('SERVER_NAME'));
+	$lh_len = strlen('localhost');
+	$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
+
+	if ($is_localhost) {
+		$this->Js->buffer("
+			$('td.check_status').each(function () {
+				$(this).html('Can\'t check (on localhost)');
 			});
-		});
-	");
+		");
+	} else {
+		$this->Js->buffer("
+			$('td.check_status').each(function () {
+				var cell = $(this);
+				$.ajax({
+					url: cell.data('url'),
+					crossDomain: true,
+					beforeSend: function () {
+						cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
+					},
+					success: function (data, textStatus, jqXHR) {
+						cell.html('Okay');
+					},
+					error: function () {
+						cell.html('Error');
+					}
+				});
+			});
+		");
+	}
 ?>
