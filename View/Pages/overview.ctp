@@ -103,6 +103,9 @@
 					},
 					success: function (data, textStatus, jqXHR) {
 						cell.html('Okay');
+						if (data.search('debug-kit-toolbar') > -1) {
+							cell.append(' (debug mode)');
+						}
 					},
 					error: function () {
 						cell.html('Error');
