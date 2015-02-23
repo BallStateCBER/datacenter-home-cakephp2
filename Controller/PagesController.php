@@ -141,7 +141,19 @@ class PagesController extends AppController {
 			}
 			if ($has_master_branch && $has_dev_branch) {
 				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'master', 'development');
-				$repository['master_status'] = $compare['status'];
+				switch ($compare['status']) {
+					case 'identical':
+						$repository['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
+						break;
+					case 'ahead':
+						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span>';
+						break;
+					case 'behind':
+						$repository['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span>';
+						break;
+					default:
+						$repository['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
+				}
 			} else {
 				$repository['master_status'] = '<span class="na">N/A</a>';
 			}

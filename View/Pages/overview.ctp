@@ -17,9 +17,7 @@
 					issues
 				</th>
 				<th>
-					Master & Dev
-					<br />
-					branches synced
+					Master vs. Dev
 				</th>
 				<th>
 					Pushed
