@@ -55,18 +55,7 @@
 						</a>
 					</td>
 					<td>
-						<?php
-							switch ($repo['master_synced']) {
-								case -1:
-									echo 'No';
-									break;
-								case 1:
-									echo 'Yes';
-									break;
-								case 0:
-									echo 'N/A';
-							}
-						?>
+						<?php echo $repo['master_status']; ?>
 					</td>
 					<td>
 						<?php

@@ -123,16 +123,27 @@ class PagesController extends AppController {
 
 		$token = Configure::read('github_api_token');
 		$method = Github\Client::AUTH_HTTP_TOKEN;
+		$username = 'BallStateCBER';
 		$client->authenticate($token, '', $method);
 
-		$repositories = $client->api('user')->repositories('BallStateCBER'); //pr($repositories);
+		$repositories = $client->api('user')->repositories($username);
 		foreach ($repositories as &$repository) {
-			$master_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
-			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'development');
-			if ($master_branch && $dev_branch) {
-				$repository['master_synced'] = ($master_branch['commit']['sha'] == $dev_branch['commit']['sha']) ? 1 : -1;
+			$branches = $client->api('repo')->branches($username, $repository['name']);
+			$has_master_branch = false;
+			$has_dev_branch = false;
+			foreach ($branches as $branch) {
+				if ($branch['name'] == 'master') {
+					$has_master_branch = true;
+				}
+				if ($branch['name'] == 'development') {
+					$has_dev_branch = true;
+				}
+			}
+			if ($has_master_branch && $has_dev_branch) {
+				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'master', 'development');
+				$repository['master_status'] = $compare['status'];
 			} else {
-				$repository['master_synced'] = 0;
+				$repository['master_status'] = 'N/A';
 			}
 		}
 
@@ -140,15 +151,12 @@ class PagesController extends AppController {
 		foreach ($repositories as $i => $repository) {
 			$key = $repository['pushed_at'];
 			if (isset($sorted_repos[$key])) {
-				// Not sure why the 'smartDate' repo was being added to $sorted_repos twice, but this fixes it
-				if ($sorted_repos[$key]['name'] == $repository['name']) {
-					continue;
-				}
 				$key .= $i;
 			}
 			$sorted_repos[$key] = $repository;
 		}
 		krsort($sorted_repos);
+		$repositories = $sorted_repos;
 		//pr($sorted_repos);
 
 		$sites = array(
@@ -220,7 +228,7 @@ class PagesController extends AppController {
 		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
 		$this->set(array(
 			'title_for_layout' => 'Data Center Overview',
-			'repositories' => $sorted_repos,
+			'repositories' => $repositories,
 			'sites' => $sites,
 			'is_localhost' => $is_localhost,
 			'servers' => $is_localhost ? array('development', 'production') : array('production')
