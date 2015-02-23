@@ -126,6 +126,7 @@ class PagesController extends AppController {
 		$client->authenticate($token, '', $method);
 
 		$repositories = $client->api('user')->repositories('BallStateCBER');
+		//pr($repositories);
 		foreach ($repositories as &$repository) {
 			$master_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
 			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
@@ -136,9 +137,28 @@ class PagesController extends AppController {
 			}
 		}
 
+		$sites = array(
+			'brownfield' => 'http://brownfield.cberdata.org/',
+			'commentaries' => 'http://commentaries.cberdata.org/',
+			'communityAssetInventory' => 'http://asset.cberdata.org/',
+			'conexus' => 'http://conexus.cberdata.org/',
+			'countyProfiles' => 'http://profiles.cberdata.org/',
+			'cri' => 'http://cri.cberdata.org/',
+			'dataCenterHome' => 'http://cberdata.org/',
+			'economicIndicators' => 'http://indicators.cberdata.org/',
+			'ice_miller' => 'http://icemiller.cberdata.org/',
+			'muncieMusicFest' => 'http://munciemusicfest.com',
+			'muncie_events' => 'http://muncieevents.com',
+			'muncie_musicfest2' => 'http://munciemusicfest.com',
+			'projects' => 'http://projects.cberdata.org/',
+			'roundtable' => 'http://roundtable.cberdata.org/',
+			'taxCalculator' => 'http://tax-comparison.cberdata.org/'
+		);
+
 		$this->set(array(
 			'title_for_layout' => 'Data Center Overview',
-			'repositories' => $repositories
+			'repositories' => $repositories,
+			'sites' => $sites
 		));
 	}
 }

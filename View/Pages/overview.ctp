@@ -22,6 +22,9 @@
 				<th>
 					Updated
 				</th>
+				<th>
+					Status
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,7 +36,9 @@
 						</a>
 					</td>
 					<td>
-						<?php echo $repo['open_issues']; ?>
+						<a href="<?php echo $repo['html_url']; ?>/issues">
+							<?php echo $repo['open_issues']; ?>
+						</a>
 					</td>
 					<td>
 						<?php
@@ -48,16 +53,26 @@
 					</td>
 					<td>
 						<?php
-							echo $this->Time->timeAgoInWords($repo['updated_at'], array(
+							$time_ago = $this->Time->timeAgoInWords($repo['updated_at'], array(
 								'end' => '+1 year'
 							));
-							$date = substr($repo['updated_at'], 0, 10);
-							$time = substr($repo['updated_at'], 11, 8);
-							$timestamp = strtotime("$date $time");
-							$timestamp = strtotime($repo['updated_at']);
-							//echo date('F j, Y g:ia', $timestamp);
+							$time_ago_split = explode(', ', $time_ago);
+							$time_ago = $time_ago_split[0];
+							if (stripos($time_ago, ' ago') === false && stripos($time_ago, 'on ') === false) {
+								$time_ago = $time_ago.' ago';
+							}
+							echo $time_ago;
 						?>
 					</td>
+					<?php if (isset($sites[$repo['name']])): ?>
+						<td class="check_status" data-url="<?php echo $sites[$repo['name']]; ?>">
+
+						</td>
+					<?php else: ?>
+						<td>
+							n/a
+						</td>
+					<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -65,5 +80,21 @@
 <?php endif; ?>
 
 <?php
-
+	$this->Js->buffer("
+		$('td.check_status').each(function () {
+			var cell = $(this);
+			$.ajax({
+				url: cell.data('url'),
+				beforeSend: function () {
+					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
+				},
+				success: function () {
+					cell.html('Okay');
+				},
+				error: function () {
+					cell.html('Error');
+				}
+			});
+		});
+	");
 ?>
