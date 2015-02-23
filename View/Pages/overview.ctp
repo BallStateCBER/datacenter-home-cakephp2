@@ -65,7 +65,7 @@
 					<td>
 						<?php
 							$time_ago = $this->Time->timeAgoInWords($repo['pushed_at'], array(
-								'end' => '+1 year'
+								'end' => '+10 year'
 							));
 							$time_ago_split = explode(', ', $time_ago);
 							$time_ago = $time_ago_split[0];
