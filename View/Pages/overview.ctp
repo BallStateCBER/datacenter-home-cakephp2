@@ -1,3 +1,7 @@
+<h1 class="page_title">
+	Website Panopticon
+</h1>
+
 <?php $this->Html->css('overview', array('inline' => false)); ?>
 
 <?php if (empty($repositories)): ?>
