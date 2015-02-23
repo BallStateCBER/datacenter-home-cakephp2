@@ -25,10 +25,18 @@
 				<th>
 					URLs
 				</th>
-				<th>
-					<?php echo $is_localhost ? 'Localhost' : 'Production'; ?>
-					Status
-				</th>
+				<?php if ($is_localhost): ?>
+					<th>
+						Dev Status
+					</th>
+					<th>
+						Production Status
+					</th>
+				<?php else: ?>
+					<th>
+						Status
+					</th>
+				<?php endif; ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,6 +60,9 @@
 									break;
 								case 1:
 									echo 'Yes';
+									break;
+								case 0:
+									echo 'N/A';
 							}
 						?>
 					</td>
@@ -66,7 +77,7 @@
 						?>
 					</td>
 					<td>
-						<?php foreach (array('production', 'development') as $server): ?>
+						<?php foreach (array('development', 'production') as $server): ?>
 							<?php if (isset($sites[$repo['name']][$server])): ?>
 								<a href="<?php echo $sites[$repo['name']][$server]; ?>">
 									<?php echo substr($server, 0, 3); ?>
@@ -74,19 +85,20 @@
 							<?php endif; ?>
 						<?php endforeach; ?>
 					</td>
-					<?php
-						$server = $is_localhost ? 'development' : 'production';
-						$url = isset($sites[$repo['name']][$server]) ? $sites[$repo['name']][$server] : null;
-					?>
-					<?php if ($url): ?>
-						<td class="check_status" data-url="<?php echo $url; ?>">
+					<?php foreach ($servers as $server): ?>
+						<?php
+							$url = isset($sites[$repo['name']][$server]) ? $sites[$repo['name']][$server] : null;
+						?>
+						<?php if ($url): ?>
+							<td class="check_status" data-url="<?php echo $url; ?>" data-server="<?php echo $server; ?>">
 
-						</td>
-					<?php else: ?>
-						<td>
-							n/a
-						</td>
-					<?php endif; ?>
+							</td>
+						<?php else: ?>
+							<td>
+								n/a
+							</td>
+						<?php endif; ?>
+					<?php endforeach; ?>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
@@ -94,24 +106,27 @@
 <?php endif; ?>
 
 <?php
-	$url = $is_localhost ? 'cell.data(\'url\')' : "'http://whateverorigin.org/get?url=' + encodeURIComponent(cell.data('url')) + '&callback=?'";
-	$dataType = $is_localhost ? '' : "dataType: 'json',";
-	$data = $is_localhost ? 'data' : 'data.contents';
-	//scriptCharset: 'utf-8',
-	//contentType: 'application/json; charset=utf-8',
 	$this->Js->buffer("
 		$('td.check_status').each(function () {
 			var cell = $(this);
+			var is_localhost = cell.data('server') == 'development';
+			if (is_localhost) {
+				var url = cell.data('url');
+			} else {
+				var url = 'http://whateverorigin.org/get?url=' + encodeURIComponent(cell.data('url')) + '&callback=?';
+			}
+			var dataType = is_localhost ? 'html' : 'json';
 			$.ajax({
-				$dataType
-				url: $url,
+				dataType: dataType,
+				url: url,
 				crossDomain: true,
 				beforeSend: function () {
 					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
 				},
 				success: function(data) {
 					cell.html('Okay');
-					if ($data.search('debug-kit-toolbar') > -1) {
+					var result = is_localhost ? data : data.contents;
+					if (result.search('debug-kit-toolbar') > -1) {
 						cell.append(' (debug)');
 					}
 				},

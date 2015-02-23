@@ -125,10 +125,10 @@ class PagesController extends AppController {
 		$method = Github\Client::AUTH_HTTP_TOKEN;
 		$client->authenticate($token, '', $method);
 
-		$repositories = $client->api('user')->repositories('BallStateCBER');
+		$repositories = $client->api('user')->repositories('BallStateCBER'); //pr($repositories);
 		foreach ($repositories as &$repository) {
 			$master_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
-			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
+			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'development');
 			if ($master_branch && $dev_branch) {
 				$repository['master_synced'] = ($master_branch['commit']['sha'] == $dev_branch['commit']['sha']) ? 1 : -1;
 			} else {
@@ -138,10 +138,18 @@ class PagesController extends AppController {
 
 		$sorted_repos = array();
 		foreach ($repositories as $i => $repository) {
-			$key = $repository['pushed_at'].$i;
+			$key = $repository['pushed_at'];
+			if (isset($sorted_repos[$key])) {
+				// Not sure why the 'smartDate' repo was being added to $sorted_repos twice, but this fixes it
+				if ($sorted_repos[$key]['name'] == $repository['name']) {
+					continue;
+				}
+				$key .= $i;
+			}
 			$sorted_repos[$key] = $repository;
 		}
 		krsort($sorted_repos);
+		//pr($sorted_repos);
 
 		$sites = array(
 			'brownfield' => array(
@@ -214,7 +222,8 @@ class PagesController extends AppController {
 			'title_for_layout' => 'Data Center Overview',
 			'repositories' => $sorted_repos,
 			'sites' => $sites,
-			'is_localhost' => $is_localhost
+			'is_localhost' => $is_localhost,
+			'servers' => $is_localhost ? array('development', 'production') : array('production')
 		));
 	}
 }
