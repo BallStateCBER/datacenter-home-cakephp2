@@ -126,7 +126,6 @@ class PagesController extends AppController {
 		$client->authenticate($token, '', $method);
 
 		$repositories = $client->api('user')->repositories('BallStateCBER');
-		//pr($repositories);
 		foreach ($repositories as &$repository) {
 			$master_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
 			$dev_branch = $client->api('repo')->branches('BallStateCBER', 'brownfield', 'master');
@@ -136,6 +135,13 @@ class PagesController extends AppController {
 				$repository['master_synced'] = 0;
 			}
 		}
+
+		$sorted_repos = array();
+		foreach ($repositories as $i => $repository) {
+			$key = $repository['pushed_at'].$i;
+			$sorted_repos[$key] = $repository;
+		}
+		krsort($sorted_repos);
 
 		$sites = array(
 			'brownfield' => array(
@@ -206,7 +212,7 @@ class PagesController extends AppController {
 		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
 		$this->set(array(
 			'title_for_layout' => 'Data Center Overview',
-			'repositories' => $repositories,
+			'repositories' => $sorted_repos,
 			'sites' => $sites,
 			'is_localhost' => $is_localhost
 		));
