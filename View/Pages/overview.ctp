@@ -20,7 +20,7 @@
 					branches synced
 				</th>
 				<th>
-					Updated
+					Pushed
 				</th>
 				<th>
 					URLs
