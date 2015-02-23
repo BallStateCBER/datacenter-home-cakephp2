@@ -140,7 +140,7 @@ class PagesController extends AppController {
 				}
 			}
 			if ($has_master_branch && $has_dev_branch) {
-				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'master', 'development');
+				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'development', 'master');
 				switch ($compare['status']) {
 					case 'identical':
 						$repository['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
