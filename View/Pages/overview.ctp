@@ -1,5 +1,5 @@
 <h1 class="page_title">
-	Website Panopticon
+	<?php echo $title_for_layout; ?>
 </h1>
 
 <?php $this->Html->css('overview', array('inline' => false)); ?>

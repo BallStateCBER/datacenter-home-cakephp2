@@ -274,7 +274,7 @@ class PagesController extends AppController {
 		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
 
 		$this->set(array(
-			'title_for_layout' => 'Data Center Overview',
+			'title_for_layout' => 'CBER Website Panopticon',
 			'repositories' => $repositories,
 			'sites' => $sites,
 			'is_localhost' => $is_localhost,
