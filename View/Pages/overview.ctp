@@ -57,6 +57,7 @@
 						<a href="<?php echo $repo['html_url']; ?>">
 							<?php echo $repo['name']; ?>
 						</a>
+
 					</td>
 					<td>
 						<a href="<?php echo $repo['html_url']; ?>/issues">
@@ -124,14 +125,14 @@
 					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
 				},
 				success: function(data) {
-					cell.html('<span class=\"glyphicon glyphicon-ok-sign\"></span>');
+					cell.html('<span class=\"glyphicon glyphicon-ok-sign\" title=\"200 OK\"></span>');
 					var result = is_localhost ? data : data.contents;
 					if (result.search('debug-kit-toolbar') > -1) {
 						cell.append(' <span class=\"debug\">debug</span>');
 					}
 				},
-				error: function () {
-					cell.html('<span class=\"glyphicon glyphicon-remove-sign\"></span>');
+				error: function (jqXHR, textStatus, errorThrown) {
+					cell.html('<span class=\"glyphicon glyphicon-remove-sign\" title=\"'+errorThrown+'\"></span>');
 				}
 			});
 		});
