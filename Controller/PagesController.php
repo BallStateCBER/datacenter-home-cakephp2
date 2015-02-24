@@ -116,41 +116,73 @@ class PagesController extends AppController {
 	}
 
 	public function overview() {
+		// Connect to GitHub API
 		require_once('../Vendor/php-github-api/lib/Github/Client.php');
 		require_once('../Vendor/php-github-api/vendor/autoload.php');
-
 		$client = new \Github\Client();
-
 		$token = Configure::read('github_api_token');
 		$method = Github\Client::AUTH_HTTP_TOKEN;
 		$username = 'BallStateCBER';
 		$client->authenticate($token, '', $method);
 
+		// Loop through all of BallStateCBER's repos
 		$repositories = $client->api('user')->repositories($username);
 		foreach ($repositories as $i => $repository) {
+
+			// Figure out what branches this repo has
 			$branches = $client->api('repo')->branches($username, $repository['name']);
 			$has_master_branch = false;
 			$has_dev_branch = false;
+			$extra_branches = array();
 			foreach ($branches as $branch) {
 				if ($branch['name'] == 'master') {
 					$has_master_branch = true;
-				}
-				if ($branch['name'] == 'development') {
+					$master_sha = $branch['commit']['sha'];
+				} elseif ($branch['name'] == 'development') {
 					$has_dev_branch = true;
+					$dev_sha = $branch['commit']['sha'];
+				} else {
+					$extra_branches[$branch['name']] = $branch['commit']['sha'];
 				}
+				$repositories[$i]['branches'][] = $branch['name'];
 			}
-			if ($has_master_branch && $has_dev_branch) {
-				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], 'development', 'master');
+
+			// Determine which branch the master branch should be compared to
+			$base_branch = $has_dev_branch ? 'development' : null;
+			if ($has_master_branch && ! empty($extra_branches)) {
+				$freshest_branch = null;
+				$updated = null;
+				if ($has_dev_branch) {
+					$dev_commit = $client->api('repo')->commits()->show($username, $repository['name'], $dev_sha);
+					$freshest_branch = 'development';
+					$updated = $dev_commit['commit']['committer']['date'];
+				}
+				foreach ($extra_branches as $branch_name => $branch_sha) {
+					$commit = $client->api('repo')->commits()->show($username, $repository['name'], $branch_sha);
+					if ($commit['commit']['committer']['date'] > $updated) {
+						$freshest_branch = $branch_name;
+						$updated = $commit['commit']['committer']['date'];
+					}
+				}
+				$base_branch = $freshest_branch;
+			}
+
+			// Determine how ahead/behind master is vs. most recently-updated non-master branch
+			$can_compare = $has_master_branch && $base_branch;
+			if ($can_compare) {
+				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], $base_branch, 'master');
 				switch ($compare['status']) {
 					case 'identical':
 						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
 						break;
 					case 'ahead':
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead for some reason"></span> ';
+						$ahead_branch = $base_branch ? " of $base_branch" : '';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead'.$ahead_branch.' for some reason"></span>';
 						$repositories[$i]['master_status'] .= $compare['ahead_by'];
 						break;
 					case 'behind':
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind"></span> ';
+						$behind_branch = $base_branch ? " $base_branch" : '';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind'.$behind_branch.'"></span>';
 						$repositories[$i]['master_status'] .= $compare['behind_by'];
 						break;
 					default:
@@ -161,6 +193,7 @@ class PagesController extends AppController {
 			}
 		}
 
+		// Sort by last push
 		$sorted_repos = array();
 		foreach ($repositories as $i => $repository) {
 			$key = $repository['pushed_at'];
@@ -171,7 +204,6 @@ class PagesController extends AppController {
 		}
 		krsort($sorted_repos);
 		$repositories = $sorted_repos;
-		//pr($sorted_repos);
 
 		$sites = array(
 			'brownfield' => array(
@@ -240,6 +272,7 @@ class PagesController extends AppController {
 		$sn_len = strlen(env('SERVER_NAME'));
 		$lh_len = strlen('localhost');
 		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
+
 		$this->set(array(
 			'title_for_layout' => 'Data Center Overview',
 			'repositories' => $repositories,
