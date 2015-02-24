@@ -207,62 +207,77 @@ class PagesController extends AppController {
 
 		$sites = array(
 			'brownfield' => array(
+				'title' => 'Brownfield Grant Writers\' Tool',
 				'production' => 'http://brownfield.cberdata.org',
 				'development' => 'http://brownfield.localhost/'
 			),
 			'commentaries' => array(
+				'title' => 'Weekly Commentaries',
 				'production' => 'http://commentaries.cberdata.org',
 				'development' => 'http://commentaries.localhost'
 			),
 			'communityAssetInventory' => array(
+				'title' => 'Community Asset Inventory',
 				'production' => 'http://asset.cberdata.org',
 				'development' => 'http://qop.localhost'
 			),
 			'conexus' => array(
+				'title' => 'Conexus Indiana Report Card',
 				'production' => 'http://conexus.cberdata.org',
 				'development' => 'http://conexus.localhost'
 			),
 			'countyProfiles' => array(
+				'title' => 'County Profiles',
 				'production' => 'http://profiles.cberdata.org',
 				'development' => 'http://profiles.localhost'
 			),
 			'cri' => array(
+				'title' => 'Community Readiness Initiative',
 				'production' => 'http://cri.cberdata.org',
 				'development' => 'http://cri.localhost'
 			),
 			'dataCenterHome' => array(
+				'title' => 'CBER Data Center Home',
 				'production' => 'http://cberdata.org',
 				'development' => 'http://dchome.localhost'
 			),
 			'economicIndicators' => array(
+				'title' => 'Economic Indicators',
 				'production' => 'http://indicators.cberdata.org',
 				'development' => 'http://indicators.localhost'
 			),
 			'ice_miller' => array(
+				'title' => 'Ice Miller / EDGE Articles',
 				'production' => 'http://icemiller.cberdata.org',
 				'development' => 'http://icemiller.localhost'
 			),
 			'muncieMusicFest' => array(
+				'title' => 'Muncie MusicFest',
 				'production' => 'http://munciemusicfest.com',
 				'development' => 'http://mmf.localhost'
 			),
 			'muncie_events' => array(
+				'title' => 'Muncie Events',
 				'production' => 'http://muncieevents.com',
 				'development' => 'http://muncie_events.localhost'
 			),
 			'muncie_musicfest2' => array(
+				'title' => 'Muncie MusicFest (cake2)',
 				'production' => 'http://munciemusicfest.com',
 				'development' => 'http://mmf.localhost'
 			),
 			'projects' => array(
+				'title' => 'CBER Projects and Publications',
 				'production' => 'http://projects.cberdata.org',
 				'development' => 'http://projects.localhost'
 			),
 			'roundtable' => array(
+				'title' => 'BSU Roundtable',
 				'production' => 'http://roundtable.cberdata.org',
 				'development' => 'http://roundtable.localhost'
 			),
 			'taxCalculator' => array(
+				'title' => 'Tax Savings Calculator',
 				'production' => 'http://tax-comparison.cberdata.org',
 				'development' => 'http://tax_calculator.localhost'
 			)

@@ -13,8 +13,8 @@
 		<thead>
 			<tr>
 				<th>
-					Repository
-				</th>
+					Site
+				</td>
 				<th>
 					Open
 					<br />
@@ -22,15 +22,12 @@
 				</th>
 				<th>
 					Master
-					<br />vs. Dev
+					<br />Branch
 				</th>
 				<th>
 					Last
 					<br />
 					Push
-				</th>
-				<th>
-					URLs
 				</th>
 				<?php if ($is_localhost): ?>
 					<th>
@@ -54,10 +51,24 @@
 			<?php foreach ($repositories as $repo): ?>
 				<tr>
 					<td>
-						<a href="<?php echo $repo['html_url']; ?>">
-							<?php echo $repo['name']; ?>
-						</a>
-
+						<?php echo isset($sites[$repo['name']]['title']) ? $sites[$repo['name']]['title'] : $repo['name']; ?>
+						<br />
+						<ul class="links">
+							<li>
+								<a href="<?php echo $repo['html_url']; ?>">
+									Repo
+								</a>
+							</li>
+							<?php foreach (array('development', 'production') as $server): ?>
+								<?php if (isset($sites[$repo['name']][$server])): ?>
+									<li>
+										<a href="<?php echo $sites[$repo['name']][$server]; ?>">
+											<?php echo ucwords($server); ?>
+										</a>
+									</li>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</ul>
 					</td>
 					<td>
 						<a href="<?php echo $repo['html_url']; ?>/issues">
@@ -76,15 +87,6 @@
 							$time_ago = $time_ago_split[0];
 							echo str_replace(' ago', '', $time_ago);
 						?>
-					</td>
-					<td>
-						<?php foreach (array('development', 'production') as $server): ?>
-							<?php if (isset($sites[$repo['name']][$server])): ?>
-								<a href="<?php echo $sites[$repo['name']][$server]; ?>">
-									<?php echo substr($server, 0, 3); ?>
-								</a>
-							<?php endif; ?>
-						<?php endforeach; ?>
 					</td>
 					<?php foreach ($servers as $server): ?>
 						<?php
