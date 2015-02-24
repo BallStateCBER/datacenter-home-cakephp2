@@ -13,7 +13,7 @@
 		<thead>
 			<tr>
 				<th>
-					Site
+					Website / Software
 				</td>
 				<th>
 					Open
