@@ -177,12 +177,12 @@ class PagesController extends AppController {
 						break;
 					case 'ahead':
 						$ahead_branch = $base_branch ? " of $base_branch" : '';
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead'.$ahead_branch.' for some reason"></span>';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead'.$ahead_branch.' for some reason"></span> ';
 						$repositories[$i]['master_status'] .= $compare['ahead_by'];
 						break;
 					case 'behind':
 						$behind_branch = $base_branch ? " $base_branch" : '';
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind'.$behind_branch.'"></span>';
+						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind'.$behind_branch.'"></span> ';
 						$repositories[$i]['master_status'] .= $compare['behind_by'];
 						break;
 					default:
