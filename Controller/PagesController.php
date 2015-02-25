@@ -280,6 +280,18 @@ class PagesController extends AppController {
 				'title' => 'Tax Savings Calculator',
 				'production' => 'http://tax-comparison.cberdata.org',
 				'development' => 'http://tax_calculator.localhost'
+			),
+			'dataCenterPlugin' => array(
+				'title' => 'Data Center Plugin'
+			),
+			'dataCenterTemplate' => array(
+				'title' => 'Data Center Template'
+			),
+			'GoogleCharts' => array(
+				'title' => 'Google Charts Plugin for CakePHP (fork)'
+			),
+			'cakephp-upload' => array(
+				'title' => 'Upload Plugin for CakePHP (fork)'
 			)
 		);
 
