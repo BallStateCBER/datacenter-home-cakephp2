@@ -25,6 +25,7 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
 Router::connect('/commentaries/*', array('controller' => 'pages', 'action' => 'commentaries_redirect'));
 Router::connect('/refresh_latest_release', array('controller' => 'pages', 'action' => 'refresh_latest_release'));
 Router::connect('/panopticon', array('controller' => 'pages', 'action' => 'overview'));
+Router::connect('/terms', array('controller' => 'pages', 'action' => 'terms'));
 
 /**
  * Load all plugin routes.  See the CakePlugin documentation on

@@ -308,4 +308,8 @@ class PagesController extends AppController {
 			'servers' => $is_localhost ? array('development', 'production') : array('production')
 		));
 	}
+
+	public function terms() {
+		$this->set('title_for_layout', 'Terms of Service');
+	}
 }
