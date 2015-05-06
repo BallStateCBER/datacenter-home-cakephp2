@@ -359,6 +359,6 @@ class PagesController extends AppController {
 			'debug' => stripos($result, 'debug-kit-toolbar') !== false
 		);
         $this->set('result', $retval);
-        $this->layout = 'ajax';
+        $this->layout = 'json';
     }
 }
