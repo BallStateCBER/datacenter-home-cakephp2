@@ -3,23 +3,21 @@ var dataCenterOverview = {
 		$('td.check_status').each(function () {
 			var cell = $(this);
 			var is_localhost = cell.data('server') == 'development';
-			if (is_localhost) {
-				var url = cell.data('url');
-			} else {
-				var url = 'http://whateverorigin.org/get?url=' + encodeURIComponent(cell.data('url')) + '&callback=?';
-			}
-			var dataType = is_localhost ? 'html' : 'json';
+			var url = '/pages/statuscheck?url=' + encodeURIComponent(cell.data('url'));
 			$.ajax({
-				dataType: dataType,
+				dataType: 'json',
 				url: url,
 				crossDomain: true,
 				beforeSend: function () {
 					cell.html('<img src=\"/data_center/img/loading_small.gif\" alt=\"Loading...\" />');
 				},
 				success: function (data) {
-					cell.html('<span class=\"glyphicon glyphicon-ok-sign\" title=\"200 OK\"></span>');
-					var result = is_localhost ? data : data.contents;
-					if (result.search('debug-kit-toolbar') > -1) {
+					if (data.status.search('200 OK') > -1) {
+    					cell.html('<span class=\"glyphicon glyphicon-ok-sign\" title=\"200 OK\"></span>');
+					} else {
+						cell.html('<span class=\"glyphicon glyphicon-remove-sign\" title=\"'+data.status+'\"></span>');
+					}
+					if (data.debug) {
 						cell.append(' <span class=\"debug\">debug</span>');
 					}
 				},
