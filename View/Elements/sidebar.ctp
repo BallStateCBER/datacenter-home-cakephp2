@@ -17,7 +17,7 @@
 		?>
 		<br />
 		<a href="http://projects.cberdata.org">
-			View Project Database &rarr;
+			View Project Library &rarr;
 		</a>
 		<br class="clear" />
 	</section>
