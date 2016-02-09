@@ -292,7 +292,12 @@ class PagesController extends AppController {
 			),
 			'cakephp-upload' => array(
 				'title' => 'Upload Plugin for CakePHP (fork)'
-			)
+			),
+			'cri_cake3' => array(
+			    'title' => 'Community Readiness Initiative',
+                'production' => 'http://cri.cberdata.org',
+                'development' => 'http://cri-c3.localhost'
+            )
 		);
 
 		$pos = stripos(env('SERVER_NAME'), 'localhost');
