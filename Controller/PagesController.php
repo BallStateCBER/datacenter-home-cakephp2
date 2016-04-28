@@ -231,11 +231,6 @@ class PagesController extends AppController {
 				'production' => 'http://profiles.cberdata.org',
 				'development' => 'http://profiles.localhost'
 			),
-			'cri' => array(
-				'title' => 'Community Readiness Initiative',
-				'production' => 'http://cri.cberdata.org',
-				'development' => 'http://cri.localhost'
-			),
 			'dataCenterHome' => array(
 				'title' => 'CBER Data Center Home',
 				'production' => 'http://cberdata.org',
