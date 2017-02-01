@@ -98,7 +98,7 @@
 							</td>
 						<?php else: ?>
 							<td>
-								<span class="na">N/A</a>
+								<span class="na">N/A</span>
 							</td>
 						<?php endif; ?>
 					<?php endforeach; ?>
