@@ -236,6 +236,9 @@ class PagesController extends AppController {
 				'production' => 'http://cberdata.org',
 				'development' => 'http://dchome.localhost'
 			),
+            'datacenter-plugin-cakephp3' => array(
+                'title' => 'Data Center Plugin (CakePHP 3)'
+            ),
 			'economicIndicators' => array(
 				'title' => 'Economic Indicators',
 				'production' => 'http://indicators.cberdata.org',
@@ -268,16 +271,18 @@ class PagesController extends AppController {
 				'development' => 'http://projects.localhost'
 			),
 			'roundtable' => array(
-				'title' => 'BSU Roundtable',
-				'production' => 'http://bsuroundtable.org'
+				'title' => 'BSU Roundtable (CakePHP 2)'
 			),
+            'roundtable-cake3' => array(
+                'title' => 'BSU Roundtable (CakePHP 3)'
+            ),
 			'taxCalculator' => array(
 				'title' => 'Tax Savings Calculator',
 				'production' => 'http://tax-comparison.cberdata.org',
 				'development' => 'http://tax_calculator.localhost'
 			),
 			'dataCenterPlugin' => array(
-				'title' => 'Data Center Plugin'
+				'title' => 'Data Center Plugin (CakePHP 2)'
 			),
 			'dataCenterTemplate' => array(
 				'title' => 'Data Center Template'
