@@ -246,8 +246,11 @@ class PagesController extends AppController {
 				'production' => 'http://icemiller.cberdata.org',
 				'development' => 'http://icemiller.localhost'
 			),
-			'muncieMusicFest' => array(
-				'title' => 'Muncie MusicFest',
+            'muncieMusicFest' => array(
+                'title' => 'Muncie MusicFest (CakePHP 1)'
+            ),
+			'muncieMusicFest2' => array(
+				'title' => 'Muncie MusicFest (CakePHP 3)',
 				'production' => 'http://munciemusicfest.com',
 				'development' => 'http://mmf.localhost'
 			),
@@ -257,9 +260,7 @@ class PagesController extends AppController {
 				'development' => 'http://muncie_events.localhost'
 			),
 			'muncie_musicfest2' => array(
-				'title' => 'Muncie MusicFest (cake2)',
-				'production' => 'http://munciemusicfest.com',
-				'development' => 'http://mmf.localhost'
+				'title' => 'Muncie MusicFest (CakePHP 2)'
 			),
 			'projects' => array(
 				'title' => 'CBER Projects and Publications',
