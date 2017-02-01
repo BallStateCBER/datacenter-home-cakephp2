@@ -211,6 +211,9 @@ class PagesController extends AppController {
 				'production' => 'http://brownfield.cberdata.org',
 				'development' => 'http://brownfield.localhost/'
 			),
+            'cber-data-grabber' => array(
+                'title' => 'CBER Data Grabber'
+            ),
 			'commentaries' => array(
 				'title' => 'Weekly Commentaries',
 				'production' => 'http://commentaries.cberdata.org',
@@ -231,6 +234,9 @@ class PagesController extends AppController {
 				'production' => 'http://profiles.cberdata.org',
 				'development' => 'http://profiles.localhost'
 			),
+            'county-profiles-updater' => array(
+                'title' => 'County Profiles Updater'
+            ),
 			'dataCenterHome' => array(
 				'title' => 'CBER Data Center Home',
 				'production' => 'http://cberdata.org',
