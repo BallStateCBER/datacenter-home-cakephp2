@@ -268,8 +268,7 @@ class PagesController extends AppController {
 			),
 			'roundtable' => array(
 				'title' => 'BSU Roundtable',
-				'production' => 'http://roundtable.cberdata.org',
-				'development' => 'http://roundtable.localhost'
+				'production' => 'http://bsuroundtable.org'
 			),
 			'taxCalculator' => array(
 				'title' => 'Tax Savings Calculator',
