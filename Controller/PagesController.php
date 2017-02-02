@@ -255,9 +255,6 @@ class PagesController extends AppController {
 				'production' => 'http://icemiller.cberdata.org',
 				'development' => 'http://icemiller.localhost'
 			),
-            'muncieMusicFest' => array(
-                'title' => 'Muncie MusicFest (CakePHP 1)'
-            ),
 			'muncieMusicFest2' => array(
 				'title' => 'Muncie MusicFest (CakePHP 3)',
 				'production' => 'http://munciemusicfest.com',
@@ -268,9 +265,6 @@ class PagesController extends AppController {
 				'production' => 'http://muncieevents.com',
 				'development' => 'http://muncie_events.localhost'
 			),
-			'muncie_musicfest2' => array(
-				'title' => 'Muncie MusicFest (CakePHP 2)'
-			),
 			'projects' => array(
 				'title' => 'CBER Projects and Publications',
 				'production' => 'http://projects.cberdata.org',
@@ -279,9 +273,6 @@ class PagesController extends AppController {
 			'roundtable' => array(
 				'title' => 'BSU Roundtable (CakePHP 2)'
 			),
-            'roundtable-cake3' => array(
-                'title' => 'BSU Roundtable (CakePHP 3)'
-            ),
 			'taxCalculator' => array(
 				'title' => 'Tax Savings Calculator',
 				'production' => 'http://tax-comparison.cberdata.org',
@@ -295,9 +286,6 @@ class PagesController extends AppController {
 			),
 			'GoogleCharts' => array(
 				'title' => 'Google Charts Plugin for CakePHP (fork)'
-			),
-			'cakephp-upload' => array(
-				'title' => 'Upload Plugin for CakePHP (fork)'
 			),
 			'cri' => array(
 			    'title' => 'Community Readiness Initiative',
