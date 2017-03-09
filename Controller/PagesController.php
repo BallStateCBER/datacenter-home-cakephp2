@@ -290,7 +290,7 @@ class PagesController extends AppController {
 			'cri' => array(
 			    'title' => 'Community Readiness Initiative',
                 'production' => 'http://cri.cberdata.org',
-                'development' => 'http://cri-c3.localhost'
+                'development' => 'http://cri.localhost'
             )
 		);
 
