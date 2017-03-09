@@ -263,7 +263,7 @@ class PagesController extends AppController {
 			'muncie_events' => array(
 				'title' => 'Muncie Events',
 				'production' => 'http://muncieevents.com',
-				'development' => 'http://muncie_events.localhost'
+				'development' => 'http://muncie-events.localhost'
 			),
 			'projects' => array(
 				'title' => 'CBER Projects and Publications',
@@ -276,7 +276,7 @@ class PagesController extends AppController {
 			'taxCalculator' => array(
 				'title' => 'Tax Savings Calculator',
 				'production' => 'http://tax-comparison.cberdata.org',
-				'development' => 'http://tax_calculator.localhost'
+				'development' => 'http://tax-calculator.localhost'
 			),
 			'dataCenterPlugin' => array(
 				'title' => 'Data Center Plugin (CakePHP 2)'
