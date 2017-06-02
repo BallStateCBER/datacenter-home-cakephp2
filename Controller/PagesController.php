@@ -211,6 +211,9 @@ class PagesController extends AppController {
 				'production' => 'http://brownfield.cberdata.org',
 				'development' => 'http://brownfield.localhost/'
 			),
+            'brownfields-updater' => array(
+                'title' => 'Brownfield Grant Writers\' Tool Data Importer'
+            ),
             'cber-data-grabber' => array(
                 'title' => 'CBER Data Grabber'
             ),
@@ -255,16 +258,22 @@ class PagesController extends AppController {
 				'production' => 'http://icemiller.cberdata.org',
 				'development' => 'http://icemiller.localhost'
 			),
+			'mfg-scr-crd' => array(
+			    'title' => 'Manufacturing Scorecard'
+            ),
 			'muncieMusicFest2' => array(
 				'title' => 'Muncie MusicFest (CakePHP 3)',
 				'production' => 'http://munciemusicfest.com',
 				'development' => 'http://mmf.localhost'
 			),
 			'muncie_events' => array(
-				'title' => 'Muncie Events',
+				'title' => 'Muncie Events (CakePHP 2)',
 				'production' => 'http://muncieevents.com',
 				'development' => 'http://muncie-events.localhost'
 			),
+            'muncie_events3' => array(
+                'title' => 'Muncie Events (CakePHP 3)'
+            ),
 			'projects' => array(
 				'title' => 'CBER Projects and Publications',
 				'production' => 'http://projects.cberdata.org',
@@ -291,6 +300,12 @@ class PagesController extends AppController {
 			    'title' => 'Community Readiness Initiative',
                 'production' => 'https://cri.cberdata.org',
                 'development' => 'https://cri.localhost'
+            ),
+            'utilities' => array(
+                'title' => 'CBER Utilities'
+            ),
+            'whyarewehere' => array(
+                'title' => 'Why Are We Here?'
             )
 		);
 
