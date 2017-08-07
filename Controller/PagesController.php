@@ -240,6 +240,9 @@ class PagesController extends AppController {
             'county-profiles-updater' => array(
                 'title' => 'County Profiles Updater'
             ),
+			'datacenter_skeleton' => array(
+                'title' => ' CBER Data Center Website Skeleton'
+            ),
 			'dataCenterHome' => array(
 				'title' => 'CBER Data Center Home',
 				'production' => 'http://cberdata.org',
