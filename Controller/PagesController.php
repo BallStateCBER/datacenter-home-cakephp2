@@ -116,117 +116,188 @@ class PagesController extends AppController {
 	}
 
 	public function overview() {
-		$sites = array(
-			'brownfield' => array(
-				'title' => 'Brownfield Grant Writers\' Tool',
-				'production' => 'http://brownfield.cberdata.org',
-				'development' => 'http://brownfield.localhost/'
-			),
-            'brownfields-updater' => array(
+		$sites = $this->getSiteDetails();
+		$retired = $this->getRetiredSites();
+        $repositories = $this->getReposFromGitHub();
+
+        // Filter out retired sites
+        foreach ($repositories as $i => $repository) {
+            if (in_array($repository['name'], $retired)) {
+                unset($repositories[$i]);
+                continue;
+            }
+        }
+
+        $is_localhost = $this->isLocalhost();
+
+		$this->set(array(
+			'title_for_layout' => 'CBER Website Panopticon',
+			'repositories' => $repositories,
+			'sites' => $sites,
+			'is_localhost' => $is_localhost,
+			'servers' => $is_localhost ? array('development', 'production') : array('production'),
+            'retired' => $retired
+		));
+	}
+
+	public function terms() {
+		$this->set('title_for_layout', 'Terms of Service');
+	}
+
+	private function __getSiteStatus($url) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // ignore SSL errors
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		return $result;
+	}
+
+	public function statuscheck() {
+		$result = $this->__getSiteStatus($_GET['url']);
+        $this->set('result', array(
+			'status' => substr($result, 0, strpos($result, "\n")),
+			'debug' => stripos($result, 'debug-kit-toolbar') !== false
+		));
+        $this->layout = 'json';
+    }
+
+    /**
+     * Returns an array of repo details, indexed by the GitHub repo name
+     *
+     * @return array
+     */
+    private function getSiteDetails()
+    {
+        return [
+            'brownfield' => [
+                'title' => 'Brownfield Grant Writers\' Tool',
+                'production' => 'http://brownfield.cberdata.org',
+                'development' => 'http://brownfield.localhost/'
+            ],
+            'brownfields-updater' => [
                 'title' => 'Brownfield Grant Writers\' Tool Data Importer'
-            ),
-            'cber-data-grabber' => array(
+            ],
+            'cber-data-grabber' => [
                 'title' => 'CBER Data Grabber'
-            ),
-			'commentaries' => array(
-				'title' => 'Weekly Commentaries',
-				'production' => 'http://commentaries.cberdata.org',
-				'development' => 'http://commentaries.localhost'
-			),
-			'communityAssetInventory' => array(
-				'title' => 'Community Asset Inventory',
-				'production' => 'http://asset.cberdata.org',
-				'development' => 'http://qop.localhost'
-			),
-			'conexus' => array(
-				'title' => 'Conexus Indiana Report Card',
-				'production' => 'http://conexus.cberdata.org',
-				'development' => 'http://conexus.localhost'
-			),
-			'countyProfiles' => array(
-				'title' => 'County Profiles',
-				'production' => 'http://profiles.cberdata.org',
-				'development' => 'http://profiles.localhost'
-			),
-            'county-profiles-updater' => array(
+            ],
+            'commentaries' => [
+                'title' => 'Weekly Commentaries',
+                'production' => 'http://commentaries.cberdata.org',
+                'development' => 'http://commentaries.localhost'
+            ],
+            'communityAssetInventory' => [
+                'title' => 'Community Asset Inventory',
+                'production' => 'http://asset.cberdata.org',
+                'development' => 'http://qop.localhost'
+            ],
+            'conexus' => [
+                'title' => 'Conexus Indiana Report Card',
+                'production' => 'http://conexus.cberdata.org',
+                'development' => 'http://conexus.localhost'
+            ],
+            'countyProfiles' => [
+                'title' => 'County Profiles',
+                'production' => 'http://profiles.cberdata.org',
+                'development' => 'http://profiles.localhost'
+            ],
+            'county-profiles-updater' => [
                 'title' => 'County Profiles Updater'
-            ),
-			'datacenter_skeleton' => array(
+            ],
+            'datacenter_skeleton' => [
                 'title' => ' CBER Data Center Website Skeleton'
-            ),
-			'dataCenterHome' => array(
-				'title' => 'CBER Data Center Home',
-				'production' => 'http://cberdata.org',
-				'development' => 'http://dchome.localhost'
-			),
-            'datacenter-plugin-cakephp3' => array(
-                'title' => 'Data Center Plugin (CakePHP 3)'
-            ),
-			'economicIndicators' => array(
-				'title' => 'Economic Indicators',
-				'production' => 'http://indicators.cberdata.org',
-				'development' => 'http://indicators.localhost'
-			),
-            'ice-miller-cakephp3' => array(
+            ],
+            'dataCenterHome' => [
+                'title' => 'CBER Data Center Home',
+                'production' => 'http://cberdata.org',
+                'development' => 'http://dchome.localhost'
+            ],
+            'datacenter-plugin-cakephp3' => [
+                'title' => 'Data Center Plugin (CakePHP 3]'
+            ],
+            'economicIndicators' => [
+                'title' => 'Economic Indicators',
+                'production' => 'http://indicators.cberdata.org',
+                'development' => 'http://indicators.localhost'
+            ],
+            'ice-miller-cakephp3' => [
                 'title' => 'Ice Miller / EDGE Articles',
                 'production' => 'http://icemiller.cberdata.org',
                 'development' => 'http://icemiller3.localhost'
-            ),
-			'mfg-scr-crd' => array(
-			    'title' => 'Manufacturing Scorecard'
-            ),
-			'muncieMusicFest2' => array(
-				'title' => 'Muncie MusicFest (CakePHP 3)',
-				'production' => 'http://munciemusicfest.com',
-				'development' => 'http://mmf.localhost'
-			),
-			'muncie_events' => array(
-				'title' => 'Muncie Events (CakePHP 2)',
-				'production' => 'http://muncieevents.com',
-				'development' => 'http://muncie-events.localhost'
-			),
-            'muncie_events3' => array(
-                'title' => 'Muncie Events (CakePHP 3)'
-            ),
-			'projects' => array(
-				'title' => 'CBER Projects and Publications',
-				'production' => 'http://projects.cberdata.org',
-				'development' => 'http://projects.localhost'
-			),
-			'roundtable' => array(
-				'title' => 'BSU Roundtable (CakePHP 2)'
-			),
-			'taxCalculator' => array(
-				'title' => 'Tax Savings Calculator',
-				'production' => 'http://tax-comparison.cberdata.org',
-				'development' => 'http://tax-calculator.localhost'
-			),
-			'dataCenterPlugin' => array(
-				'title' => 'Data Center Plugin (CakePHP 2)'
-			),
-			'dataCenterTemplate' => array(
-				'title' => 'Data Center Template'
-			),
-			'GoogleCharts' => array(
-				'title' => 'Google Charts Plugin for CakePHP (fork)'
-			),
-			'cri' => array(
-			    'title' => 'Community Readiness Initiative',
+            ],
+            'mfg-scr-crd' => [
+                'title' => 'Manufacturing Scorecard'
+            ],
+            'muncieMusicFest2' => [
+                'title' => 'Muncie MusicFest (CakePHP 3]',
+                'production' => 'http://munciemusicfest.com',
+                'development' => 'http://mmf.localhost'
+            ],
+            'muncie_events' => [
+                'title' => 'Muncie Events (CakePHP 2]',
+                'production' => 'http://muncieevents.com',
+                'development' => 'http://muncie-events.localhost'
+            ],
+            'muncie_events3' => [
+                'title' => 'Muncie Events (CakePHP 3]'
+            ],
+            'projects' => [
+                'title' => 'CBER Projects and Publications',
+                'production' => 'http://projects.cberdata.org',
+                'development' => 'http://projects.localhost'
+            ],
+            'roundtable' => [
+                'title' => 'BSU Roundtable (CakePHP 2]'
+            ],
+            'taxCalculator' => [
+                'title' => 'Tax Savings Calculator',
+                'production' => 'http://tax-comparison.cberdata.org',
+                'development' => 'http://tax-calculator.localhost'
+            ],
+            'dataCenterPlugin' => [
+                'title' => 'Data Center Plugin (CakePHP 2]'
+            ],
+            'dataCenterTemplate' => [
+                'title' => 'Data Center Template'
+            ],
+            'GoogleCharts' => [
+                'title' => 'Google Charts Plugin for CakePHP (fork]'
+            ],
+            'cri' => [
+                'title' => 'Community Readiness Initiative',
                 'production' => 'https://cri.cberdata.org',
                 'development' => 'https://cri.localhost'
-            ),
-            'utilities' => array(
+            ],
+            'utilities' => [
                 'title' => 'CBER Utilities'
-            ),
-            'whyarewehere' => array(
+            ],
+            'whyarewehere' => [
                 'title' => 'Why Are We Here?'
-            )
-		);
+            ]
+        ];
+    }
 
-		$retired = array(
+    /**
+     * Returns an array of retired sites, referenced by their GitHub repo names
+     *
+     * @return array
+     */
+    private function getRetiredSites()
+    {
+        return [
             'ice_miller'
-        );
+        ];
+    }
 
+    /**
+     * Returns an array of the BallStateCBER organization's repositories, sorted by last push
+     *
+     * @return array
+     */
+    private function getReposFromGitHub()
+    {
         // Connect to GitHub API
         require_once('../Vendor/php-github-api/lib/Github/Client.php');
         require_once('../Vendor/php-github-api/vendor/autoload.php');
@@ -239,12 +310,6 @@ class PagesController extends AppController {
         // Loop through all of BallStateCBER's repos
         $repositories = $client->api('user')->repositories($username);
         foreach ($repositories as $i => $repository) {
-            // Skip retired repos
-            if (in_array($repository['name'], $retired)) {
-                unset($repositories[$i]);
-                continue;
-            }
-
             // Figure out what branches this repo has
             $branches = $client->api('repo')->branches($username, $repository['name']);
             $has_master_branch = false;
@@ -321,42 +386,19 @@ class PagesController extends AppController {
         krsort($sorted_repos);
         $repositories = $sorted_repos;
 
-		$pos = stripos(env('SERVER_NAME'), 'localhost');
-		$sn_len = strlen(env('SERVER_NAME'));
-		$lh_len = strlen('localhost');
-		$is_localhost = ($pos !== false && $pos == ($sn_len - $lh_len));
+        return $repositories;
+    }
 
-		$this->set(array(
-			'title_for_layout' => 'CBER Website Panopticon',
-			'repositories' => $repositories,
-			'sites' => $sites,
-			'is_localhost' => $is_localhost,
-			'servers' => $is_localhost ? array('development', 'production') : array('production'),
-            'retired' => $retired
-		));
-	}
-
-	public function terms() {
-		$this->set('title_for_layout', 'Terms of Service');
-	}
-
-	private function __getSiteStatus($url) {
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // ignore SSL errors
-		curl_setopt($ch, CURLOPT_HEADER, 1);
-		$result = curl_exec($ch);
-		curl_close($ch);
-		return $result;
-	}
-
-	public function statuscheck() {
-		$result = $this->__getSiteStatus($_GET['url']);
-        $this->set('result', array(
-			'status' => substr($result, 0, strpos($result, "\n")),
-			'debug' => stripos($result, 'debug-kit-toolbar') !== false
-		));
-        $this->layout = 'json';
+    /**
+     * Returns whether or not the webpage is currently being viewed on a localhost server
+     *
+     * @return bool
+     */
+    private function isLocalhost()
+    {
+        $pos = stripos(env('SERVER_NAME'), 'localhost');
+        $sn_len = strlen(env('SERVER_NAME'));
+        $lh_len = strlen('localhost');
+        return ($pos !== false && $pos == ($sn_len - $lh_len));
     }
 }
