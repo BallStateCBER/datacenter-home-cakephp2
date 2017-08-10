@@ -218,7 +218,7 @@ class PagesController extends AppController {
                 'development' => 'http://dchome.localhost'
             ],
             'datacenter-plugin-cakephp3' => [
-                'title' => 'Data Center Plugin (CakePHP 3]'
+                'title' => 'Data Center Plugin (CakePHP 3)'
             ],
             'economicIndicators' => [
                 'title' => 'Economic Indicators',
@@ -234,17 +234,17 @@ class PagesController extends AppController {
                 'title' => 'Manufacturing Scorecard'
             ],
             'muncieMusicFest2' => [
-                'title' => 'Muncie MusicFest (CakePHP 3]',
+                'title' => 'Muncie MusicFest (CakePHP 3)',
                 'production' => 'http://munciemusicfest.com',
                 'development' => 'http://mmf.localhost'
             ],
             'muncie_events' => [
-                'title' => 'Muncie Events (CakePHP 2]',
+                'title' => 'Muncie Events (CakePHP 2)',
                 'production' => 'http://muncieevents.com',
                 'development' => 'http://muncie-events.localhost'
             ],
             'muncie_events3' => [
-                'title' => 'Muncie Events (CakePHP 3]'
+                'title' => 'Muncie Events (CakePHP 3)'
             ],
             'projects' => [
                 'title' => 'CBER Projects and Publications',
@@ -252,7 +252,7 @@ class PagesController extends AppController {
                 'development' => 'http://projects.localhost'
             ],
             'roundtable' => [
-                'title' => 'BSU Roundtable (CakePHP 2]'
+                'title' => 'BSU Roundtable (CakePHP 2)'
             ],
             'taxCalculator' => [
                 'title' => 'Tax Savings Calculator',
@@ -260,13 +260,13 @@ class PagesController extends AppController {
                 'development' => 'http://tax-calculator.localhost'
             ],
             'dataCenterPlugin' => [
-                'title' => 'Data Center Plugin (CakePHP 2]'
+                'title' => 'Data Center Plugin (CakePHP 2)'
             ],
             'dataCenterTemplate' => [
                 'title' => 'Data Center Template'
             ],
             'GoogleCharts' => [
-                'title' => 'Google Charts Plugin for CakePHP (fork]'
+                'title' => 'Google Charts Plugin for CakePHP (fork)'
             ],
             'cri' => [
                 'title' => 'Community Readiness Initiative',
