@@ -261,6 +261,11 @@ class PagesController extends AppController {
 				'production' => 'http://icemiller.cberdata.org',
 				'development' => 'http://icemiller.localhost'
 			),
+            'ice-miller-cakephp3' => array(
+                'title' => 'Ice Miller / EDGE Articles',
+                'production' => 'http://icemiller.cberdata.org',
+                'development' => 'http://icemiller3.localhost'
+            ),
 			'mfg-scr-crd' => array(
 			    'title' => 'Manufacturing Scorecard'
             ),
