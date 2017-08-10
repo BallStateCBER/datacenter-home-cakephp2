@@ -116,95 +116,6 @@ class PagesController extends AppController {
 	}
 
 	public function overview() {
-		// Connect to GitHub API
-		require_once('../Vendor/php-github-api/lib/Github/Client.php');
-		require_once('../Vendor/php-github-api/vendor/autoload.php');
-		$client = new \Github\Client();
-		$token = Configure::read('github_api_token');
-		$method = Github\Client::AUTH_HTTP_TOKEN;
-		$username = 'BallStateCBER';
-		$client->authenticate($token, '', $method);
-
-		// Loop through all of BallStateCBER's repos
-		$repositories = $client->api('user')->repositories($username);
-		foreach ($repositories as $i => $repository) {
-
-			// Figure out what branches this repo has
-			$branches = $client->api('repo')->branches($username, $repository['name']);
-			$has_master_branch = false;
-			$has_dev_branch = false;
-			$extra_branches = array();
-			foreach ($branches as $branch) {
-				if ($branch['name'] == 'master') {
-					$has_master_branch = true;
-					$master_sha = $branch['commit']['sha'];
-				} elseif ($branch['name'] == 'development') {
-					$has_dev_branch = true;
-					$dev_sha = $branch['commit']['sha'];
-				} else {
-					$extra_branches[$branch['name']] = $branch['commit']['sha'];
-				}
-				$repositories[$i]['branches'][] = $branch['name'];
-			}
-
-			// Determine which branch the master branch should be compared to
-			$base_branch = $has_dev_branch ? 'development' : null;
-			if ($has_master_branch && ! empty($extra_branches)) {
-				$freshest_branch = null;
-				$updated = null;
-				if ($has_dev_branch) {
-					$dev_commit = $client->api('repo')->commits()->show($username, $repository['name'], $dev_sha);
-					$freshest_branch = 'development';
-					$updated = $dev_commit['commit']['committer']['date'];
-				}
-				foreach ($extra_branches as $branch_name => $branch_sha) {
-					$commit = $client->api('repo')->commits()->show($username, $repository['name'], $branch_sha);
-					if ($commit['commit']['committer']['date'] > $updated) {
-						$freshest_branch = $branch_name;
-						$updated = $commit['commit']['committer']['date'];
-					}
-				}
-				$base_branch = $freshest_branch;
-			}
-
-			// Determine how ahead/behind master is vs. most recently-updated non-master branch
-			$can_compare = $has_master_branch && $base_branch;
-			if ($can_compare) {
-				$compare = $client->api('repo')->commits()->compare($username, $repository['name'], $base_branch, 'master');
-				switch ($compare['status']) {
-					case 'identical':
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
-						break;
-					case 'ahead':
-						$ahead_branch = $base_branch ? " of $base_branch" : '';
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead'.$ahead_branch.' for some reason"></span> ';
-						$repositories[$i]['master_status'] .= $compare['ahead_by'];
-						break;
-					case 'behind':
-						$behind_branch = $base_branch ? " $base_branch" : '';
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind'.$behind_branch.'"></span> ';
-						$repositories[$i]['master_status'] .= $compare['behind_by'];
-						break;
-					default:
-						$repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
-				}
-			} else {
-				$repositories[$i]['master_status'] = '<span class="na">N/A</a>';
-			}
-		}
-
-		// Sort by last push
-		$sorted_repos = array();
-		foreach ($repositories as $i => $repository) {
-			$key = $repository['pushed_at'];
-			if (isset($sorted_repos[$key])) {
-				$key .= $i;
-			}
-			$sorted_repos[$key] = $repository;
-		}
-		krsort($sorted_repos);
-		$repositories = $sorted_repos;
-
 		$sites = array(
 			'brownfield' => array(
 				'title' => 'Brownfield Grant Writers\' Tool',
@@ -255,11 +166,6 @@ class PagesController extends AppController {
 				'title' => 'Economic Indicators',
 				'production' => 'http://indicators.cberdata.org',
 				'development' => 'http://indicators.localhost'
-			),
-			'ice_miller' => array(
-				'title' => 'Ice Miller / EDGE Articles',
-				'production' => 'http://icemiller.cberdata.org',
-				'development' => 'http://icemiller.localhost'
 			),
             'ice-miller-cakephp3' => array(
                 'title' => 'Ice Miller / EDGE Articles',
@@ -317,6 +223,104 @@ class PagesController extends AppController {
             )
 		);
 
+		$retired = array(
+            'ice_miller'
+        );
+
+        // Connect to GitHub API
+        require_once('../Vendor/php-github-api/lib/Github/Client.php');
+        require_once('../Vendor/php-github-api/vendor/autoload.php');
+        $client = new \Github\Client();
+        $token = Configure::read('github_api_token');
+        $method = Github\Client::AUTH_HTTP_TOKEN;
+        $username = 'BallStateCBER';
+        $client->authenticate($token, '', $method);
+
+        // Loop through all of BallStateCBER's repos
+        $repositories = $client->api('user')->repositories($username);
+        foreach ($repositories as $i => $repository) {
+            // Skip retired repos
+            if (in_array($repository['name'], $retired)) {
+                unset($repositories[$i]);
+                continue;
+            }
+
+            // Figure out what branches this repo has
+            $branches = $client->api('repo')->branches($username, $repository['name']);
+            $has_master_branch = false;
+            $has_dev_branch = false;
+            $extra_branches = array();
+            foreach ($branches as $branch) {
+                if ($branch['name'] == 'master') {
+                    $has_master_branch = true;
+                    $master_sha = $branch['commit']['sha'];
+                } elseif ($branch['name'] == 'development') {
+                    $has_dev_branch = true;
+                    $dev_sha = $branch['commit']['sha'];
+                } else {
+                    $extra_branches[$branch['name']] = $branch['commit']['sha'];
+                }
+                $repositories[$i]['branches'][] = $branch['name'];
+            }
+
+            // Determine which branch the master branch should be compared to
+            $base_branch = $has_dev_branch ? 'development' : null;
+            if ($has_master_branch && ! empty($extra_branches)) {
+                $freshest_branch = null;
+                $updated = null;
+                if ($has_dev_branch) {
+                    $dev_commit = $client->api('repo')->commits()->show($username, $repository['name'], $dev_sha);
+                    $freshest_branch = 'development';
+                    $updated = $dev_commit['commit']['committer']['date'];
+                }
+                foreach ($extra_branches as $branch_name => $branch_sha) {
+                    $commit = $client->api('repo')->commits()->show($username, $repository['name'], $branch_sha);
+                    if ($commit['commit']['committer']['date'] > $updated) {
+                        $freshest_branch = $branch_name;
+                        $updated = $commit['commit']['committer']['date'];
+                    }
+                }
+                $base_branch = $freshest_branch;
+            }
+
+            // Determine how ahead/behind master is vs. most recently-updated non-master branch
+            $can_compare = $has_master_branch && $base_branch;
+            if ($can_compare) {
+                $compare = $client->api('repo')->commits()->compare($username, $repository['name'], $base_branch, 'master');
+                switch ($compare['status']) {
+                    case 'identical':
+                        $repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-ok-sign" title="Identical"></span>';
+                        break;
+                    case 'ahead':
+                        $ahead_branch = $base_branch ? " of $base_branch" : '';
+                        $repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-right" title="Ahead'.$ahead_branch.' for some reason"></span> ';
+                        $repositories[$i]['master_status'] .= $compare['ahead_by'];
+                        break;
+                    case 'behind':
+                        $behind_branch = $base_branch ? " $base_branch" : '';
+                        $repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-circle-arrow-left" title="Behind'.$behind_branch.'"></span> ';
+                        $repositories[$i]['master_status'] .= $compare['behind_by'];
+                        break;
+                    default:
+                        $repositories[$i]['master_status'] = '<span class="glyphicon glyphicon-question-sign" title="Unexpected status"></span>';
+                }
+            } else {
+                $repositories[$i]['master_status'] = '<span class="na">N/A</a>';
+            }
+        }
+
+        // Sort by last push
+        $sorted_repos = array();
+        foreach ($repositories as $i => $repository) {
+            $key = $repository['pushed_at'];
+            if (isset($sorted_repos[$key])) {
+                $key .= $i;
+            }
+            $sorted_repos[$key] = $repository;
+        }
+        krsort($sorted_repos);
+        $repositories = $sorted_repos;
+
 		$pos = stripos(env('SERVER_NAME'), 'localhost');
 		$sn_len = strlen(env('SERVER_NAME'));
 		$lh_len = strlen('localhost');
@@ -327,7 +331,8 @@ class PagesController extends AppController {
 			'repositories' => $repositories,
 			'sites' => $sites,
 			'is_localhost' => $is_localhost,
-			'servers' => $is_localhost ? array('development', 'production') : array('production')
+			'servers' => $is_localhost ? array('development', 'production') : array('production'),
+            'retired' => $retired
 		));
 	}
 
