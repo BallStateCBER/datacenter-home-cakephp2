@@ -188,6 +188,9 @@ class PagesController extends AppController {
                 'production' => 'http://commentaries.cberdata.org',
                 'development' => 'http://commentaries.localhost'
             ],
+            'commentaries_cake3' => [
+                'title' => 'Weekly Commentaries (CakePHP 3)'
+            ],
             'communityAssetInventory' => [
                 'title' => 'Community Asset Inventory',
                 'production' => 'http://asset.cberdata.org',
