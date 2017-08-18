@@ -49,7 +49,6 @@ class AppController extends Controller {
 	}
 	
 	protected function __getLatestRelease() {
-		Cache::write('latest_release', array());
 		$release = Cache::read('latest_release');
 		if (empty($release['cached_time']) || $release['cached_time'] < strtotime('-1 day')) {
 			$release = $this->__importLatestRelease();
