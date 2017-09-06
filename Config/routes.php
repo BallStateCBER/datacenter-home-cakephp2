@@ -26,6 +26,7 @@ Router::connect('/commentaries/*', array('controller' => 'pages', 'action' => 'c
 Router::connect('/refresh_latest_release', array('controller' => 'pages', 'action' => 'refresh_latest_release'));
 Router::connect('/panopticon', array('controller' => 'pages', 'action' => 'overview'));
 Router::connect('/terms', array('controller' => 'pages', 'action' => 'terms'));
+Router::connect('/slack', array('controller' => 'pages', 'action' => 'slack'));
 
 /**
  * Load all plugin routes.  See the CakePlugin documentation on

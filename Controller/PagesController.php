@@ -404,4 +404,31 @@ class PagesController extends AppController {
         $lh_len = strlen('localhost');
         return ($pos !== false && $pos == ($sn_len - $lh_len));
     }
+
+    public function slack() {
+        if (! $this->request->is('post')) {
+            return;
+        }
+
+        $msg = [
+            $this->request->data['hostname'],
+            $this->request->data['subject'],
+            $this->request->data['body']
+        ];
+        $data = 'payload=' . json_encode([
+            'channel' => '#server',
+            'text' => implode("\n", $msg),
+            'icon_emoji' => ':robot_face:',
+            'username' => 'CBER Web Server'
+        ]);
+
+        // You can get your webhook endpoint from your Slack settings
+        $url = Configure::read('slack_webhook_url');
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        curl_close($ch);
+    }
 }
